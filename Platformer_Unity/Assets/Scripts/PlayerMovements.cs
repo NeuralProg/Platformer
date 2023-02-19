@@ -58,7 +58,6 @@ public class PlayerMovements : BaseCharacter
     private void ResetMechanics()
     {
         jumpCount = 1;
-        anim.ResetTrigger("Jump");
     }
 
     private void HandleJump()
