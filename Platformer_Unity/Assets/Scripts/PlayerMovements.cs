@@ -7,13 +7,16 @@ using UnityEngine.Windows;
 public class PlayerMovements : BaseCharacter
 {
     #region Variables
+    // Vertical input
+    private float verticalDirection;
+
     // Jump
     private float jumpHeight = 600f;
-    public int jumpCount;
+    private int jumpCount;
     private int jump;
 
     // Dash
-    private float dashLength = 200f;
+    private float dashLength = 150f;
     private int isDashing;
     private int canDash;
     private float dashTimer;
@@ -26,6 +29,14 @@ public class PlayerMovements : BaseCharacter
     private bool isWallSliding = false;
     private int wallJumping = 0;
     private float wallJumpTimer;
+
+    // Attack
+    [Header("Slash objects")]
+    [SerializeField] private GameObject slashFront;
+    [SerializeField] private GameObject slashDown;
+    [SerializeField] private GameObject slashUp;
+    public bool isAttacking;
+    public float attackTimer;
     #endregion
 
 
@@ -37,6 +48,10 @@ public class PlayerMovements : BaseCharacter
         moveSpeed = 250f;
         jumpCount = 1;
         wallSlidingSpeed = 1f;
+
+        slashFront.SetActive(false);
+        slashDown.SetActive(false);
+        slashUp.SetActive(false);
     }
 
     protected override void Update()
@@ -44,6 +59,7 @@ public class PlayerMovements : BaseCharacter
         base.Update();
 
         direction = UnityEngine.Input.GetAxisRaw("Horizontal");
+        verticalDirection = UnityEngine.Input.GetAxisRaw("Vertical");
 
         if (isGrounded || isWallSliding)
         {
@@ -53,6 +69,7 @@ public class PlayerMovements : BaseCharacter
         HandleJump();
         HandleDash();
         HandleWallSlide();
+        HandleAttack();
     }
 
     protected override void FixedUpdate()
@@ -71,7 +88,7 @@ public class PlayerMovements : BaseCharacter
 
     private void WallJump()
     {
-        wallJumpTimer = 0.4f;
+        wallJumpTimer = 0.1f;
         wallJumping = 1;
         canMove = 0;
 
@@ -79,6 +96,25 @@ public class PlayerMovements : BaseCharacter
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         rb.velocity = new Vector2(0f, 0f);
     }
+
+    private void Attack(string attackDirection)
+    {
+        if (attackDirection == "front")
+        {
+            slashFront.SetActive(true);
+        }
+
+        if (attackDirection == "down")
+        {
+            slashDown.SetActive(true);
+        }
+
+        if (attackDirection == "up")
+        {
+            slashUp.SetActive(true);
+        }
+    }
+
     #endregion
 
 
@@ -126,7 +162,7 @@ public class PlayerMovements : BaseCharacter
         // Wall jump
         if (wallJumping == 1)
         {
-            wallJumpTimer -= Time.fixedDeltaTime;
+            wallJumpTimer -= Time.deltaTime;
             if (wallJumpTimer <= 0)
             {
                 wallJumping = 0;
@@ -138,18 +174,18 @@ public class PlayerMovements : BaseCharacter
 
     private void HandleDash()
     {
-        if (UnityEngine.Input.GetButtonDown("Dash") && canDash == 1 && !isWallSliding)
+        if (UnityEngine.Input.GetButtonDown("Dash") && canDash == 1 && !isWallSliding && !isAttacking)
         {
             canDash = 0;
             canMove = 0;
             isDashing = 1;
-            dashTimer = 0.4f;
+            dashTimer = 0.2f;
             anim.SetTrigger("Dash");
         }
 
         if (isDashing == 1)
         {
-            dashTimer -= Time.fixedDeltaTime;
+            dashTimer -= Time.deltaTime;
             if (dashTimer <= 0)
             {
                 canMove = 1;
@@ -173,6 +209,44 @@ public class PlayerMovements : BaseCharacter
             wallSlidingSpeed = 1f;
         }
         anim.SetBool("Walled", isWallSliding);
+    }
+
+    private void HandleAttack()
+    {
+        if (UnityEngine.Input.GetButtonDown("Attack") && !isAttacking && !isWallSliding)
+        {
+            isAttacking = true;
+            attackTimer = 0.5f;
+            anim.SetTrigger("Attack");
+
+            if (verticalDirection == 0)
+                Attack("front");
+
+            if (verticalDirection == -1)
+            {
+                if (isGrounded)
+                    Attack("front");
+                else
+                    Attack("down");
+            }
+
+            if (verticalDirection == -1)
+                Attack("up");
+        }
+
+        if (isAttacking)
+        {
+            attackTimer -= Time.deltaTime;
+            if (attackTimer <= 0)
+            {
+                isAttacking = false;
+                anim.ResetTrigger("Attack");
+
+                slashFront.SetActive(false);
+                slashDown.SetActive(false);
+                slashUp.SetActive(false);
+            }
+        }
     }
     #endregion
 }

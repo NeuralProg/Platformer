@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9b1954b2b5ee240589e0538978cb2cc7
+guid: e633c07e1032949d58beb77c3749f8fa
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,13 +105,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cyborg_idle_0
+      name: Biker_attack3_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 4
         y: 0
         width: 19
-        height: 35
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,20 +119,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 091a373ed5ac148ce8f8271776c560a1
-      internalID: -113600612
+      spriteID: 51cf9047d43c94032bde708d3538943d
+      internalID: 399230293
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cyborg_idle_1
+      name: Biker_attack3_1
       rect:
         serializedVersion: 2
-        x: 51
+        x: 52
         y: 0
         width: 19
-        height: 35
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,20 +140,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 37c190a5aa3784b96b64914eb4286101
-      internalID: -1117102104
+      spriteID: 297250fc685bf41cbb8b1c790202df8a
+      internalID: 111884091
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cyborg_idle_2
+      name: Biker_attack3_2
       rect:
         serializedVersion: 2
-        x: 98
+        x: 101
         y: 0
-        width: 20
-        height: 35
+        width: 17
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +161,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c7f0512fa29a94b5b9d42bc3c0a9d576
-      internalID: -1803887683
+      spriteID: 698e9af2f9e024b16ae94c205110768d
+      internalID: -29972806
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cyborg_idle_3
+      name: Biker_attack3_3
       rect:
         serializedVersion: 2
         x: 146
         y: 0
         width: 20
-        height: 35
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,8 +182,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e1dc3d9b7bb54573bf5b7203d984b4a
-      internalID: -497410062
+      spriteID: 2e11b2aec74ba4e3f81798b3c66794f3
+      internalID: 1252831777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Biker_attack3_4
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 0
+        width: 29
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4cee73e15e6e4f538a8d1a034e456f0
+      internalID: -623398303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Biker_attack3_5
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 0
+        width: 36
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b788b7f51e09b4272b9b3d128df21919
+      internalID: -7266756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Biker_attack3_6
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 0
+        width: 34
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd28f487a166644d38562cd7bb76d1e1
+      internalID: -928750751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Biker_attack3_7
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 0
+        width: 20
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4a393a6859604237a4089dc8aa12b4a
+      internalID: -1558234000
       vertices: []
       indices: 
       edges: []
@@ -199,10 +283,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Cyborg_idle_0: -113600612
-      Cyborg_idle_1: -1117102104
-      Cyborg_idle_2: -1803887683
-      Cyborg_idle_3: -497410062
+      Biker_attack3_0: 399230293
+      Biker_attack3_1: 111884091
+      Biker_attack3_2: -29972806
+      Biker_attack3_3: 1252831777
+      Biker_attack3_4: -623398303
+      Biker_attack3_5: -7266756
+      Biker_attack3_6: -928750751
+      Biker_attack3_7: -1558234000
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
