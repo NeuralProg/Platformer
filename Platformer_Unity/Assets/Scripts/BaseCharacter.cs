@@ -32,6 +32,7 @@ public abstract class BaseCharacter : MonoBehaviour
 
     protected virtual void Update()
     {
+        direction = Input.GetAxisRaw("Horizontal");
         isGrounded = Physics2D.OverlapCircle(checkGround.position, 0.05f, whatIsGround);
 
         if (rb.velocity.y < 0)
