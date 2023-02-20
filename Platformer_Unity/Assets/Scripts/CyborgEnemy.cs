@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CyborgEnemy : BaseCharacter
 {
+    [Header ("Hit collision")]
     [SerializeField] private GameObject characterHit;
 
     void Start()
@@ -11,6 +12,7 @@ public class CyborgEnemy : BaseCharacter
         base.Start();
 
         isAttacking = true;
+        direction = -1;
     }
 
     // Update is called once per frame

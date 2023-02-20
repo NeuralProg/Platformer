@@ -8,6 +8,7 @@ public class HitDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        print("Hit !");
         if ((collision.tag == "Player" || collision.tag == "Enemy") && tag != collision.tag && isAttacking)
             collision.GetComponent<Health>().Hit(1);
     }

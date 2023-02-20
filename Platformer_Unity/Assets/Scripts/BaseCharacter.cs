@@ -56,9 +56,6 @@ public abstract class BaseCharacter : MonoBehaviour
             Hit();
         }
 
-        if (!isAttacking)
-            anim.ResetTrigger("Hit");
-
         anim.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
         anim.SetBool("Grounded", isGrounded);
         anim.SetBool("Falling", isFalling);

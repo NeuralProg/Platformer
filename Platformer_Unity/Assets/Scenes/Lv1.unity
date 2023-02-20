@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 297026194}
-  - component: {fileID: 297026195}
   m_Layer: 0
   m_Name: CheckGround
   m_TagString: Untagged
@@ -155,22 +154,6 @@ Transform:
   m_Father: {fileID: 1940848329}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &297026195
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297026193}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.05
 --- !u!1 &341700828
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,6 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89a951ef113a647ee9cd0246404f2d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAttacking: 0
 --- !u!61 &586364965
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -609,6 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89a951ef113a647ee9cd0246404f2d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAttacking: 0
 --- !u!1 &1054145350
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,6 +739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89a951ef113a647ee9cd0246404f2d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAttacking: 0
 --- !u!1 &1308547195 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8612133398777728557, guid: f0da9d40d54da4710b13fa0ef3559dc4, type: 3}
@@ -924,6 +910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89a951ef113a647ee9cd0246404f2d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAttacking: 0
 --- !u!1 &1907120289
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,6 +1033,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   checkGround: {fileID: 297026194}
+  characterHit: {fileID: 586364962}
 --- !u!95 &1940848325
 Animator:
   serializedVersion: 5
@@ -1258,5 +1246,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8612133398853090517, guid: f0da9d40d54da4710b13fa0ef3559dc4, type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8612133398853090517, guid: f0da9d40d54da4710b13fa0ef3559dc4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8612133398678276767, guid: f0da9d40d54da4710b13fa0ef3559dc4, type: 3}
+    - {fileID: 8612133398853090517, guid: f0da9d40d54da4710b13fa0ef3559dc4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f0da9d40d54da4710b13fa0ef3559dc4, type: 3}
