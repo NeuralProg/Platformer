@@ -8,6 +8,7 @@ public abstract class BaseCharacter : MonoBehaviour
     // Components
     protected Rigidbody2D rb;
     protected Animator anim;
+    protected Health healthStatus;
 
     // Movement
     protected int canMove = 1;
@@ -16,11 +17,18 @@ public abstract class BaseCharacter : MonoBehaviour
     protected int facing = 1;
     protected float moveSpeed = 200f;
 
+    // Checks
     [Header ("Check ground")]
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private Transform checkGround;
     protected bool isGrounded;
     protected bool isFalling;
+
+    // Attack
+    protected bool isAttacking;
+
+    // Health
+    protected int health;
 
     #endregion
 
@@ -30,6 +38,8 @@ public abstract class BaseCharacter : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        healthStatus = GetComponent<Health>();
+        health = healthStatus.health;
     }
 
     protected virtual void Update()
@@ -41,10 +51,17 @@ public abstract class BaseCharacter : MonoBehaviour
         else
             isFalling = false;
 
+        if (health > healthStatus.health)
+        {
+            Hit();
+        }
+
+        if (!isAttacking)
+            anim.ResetTrigger("Hit");
+
         anim.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
         anim.SetBool("Grounded", isGrounded);
         anim.SetBool("Falling", isFalling);
-        anim.ResetTrigger("Hit");
     }
 
     protected virtual void FixedUpdate()
@@ -72,7 +89,7 @@ public abstract class BaseCharacter : MonoBehaviour
     protected virtual void Hit()
     {
         anim.SetTrigger("Hit");
-        print("Hit !");
+        health = healthStatus.health;
     }
     #endregion
 

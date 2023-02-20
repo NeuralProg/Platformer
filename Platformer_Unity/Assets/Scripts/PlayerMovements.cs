@@ -35,8 +35,8 @@ public class PlayerMovements : BaseCharacter
     [SerializeField] private GameObject slashFront;
     [SerializeField] private GameObject slashDown;
     [SerializeField] private GameObject slashUp;
-    private bool isAttacking;
     private float attackTimer;
+
     #endregion
 
 
@@ -65,6 +65,10 @@ public class PlayerMovements : BaseCharacter
         {
             ResetMechanics();
         }
+
+        slashFront.GetComponent<HitDetection>().isAttacking = isAttacking;
+        slashDown.GetComponent<HitDetection>().isAttacking = isAttacking;
+        slashUp.GetComponent<HitDetection>().isAttacking = isAttacking;
 
         HandleJump();
         HandleDash();
@@ -174,6 +178,7 @@ public class PlayerMovements : BaseCharacter
 
         }
     }
+    
 
     private void HandleDash()
     {

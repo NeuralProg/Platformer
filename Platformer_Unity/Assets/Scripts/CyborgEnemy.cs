@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class CyborgEnemy : BaseCharacter
 {
-    // Start is called before the first frame update
+    [SerializeField] private GameObject characterHit;
+
     void Start()
     {
         base.Start();
 
-        direction = -1f;
+        isAttacking = true;
     }
 
     // Update is called once per frame
@@ -17,11 +18,6 @@ public class CyborgEnemy : BaseCharacter
     {
         base.Update();
 
-        direction = 0f;
-    }
-
-    protected override void Hit()
-    {
-        base.Hit();
+        characterHit.GetComponent<HitDetection>().isAttacking = isAttacking;
     }
 }
