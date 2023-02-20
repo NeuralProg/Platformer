@@ -40,7 +40,7 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 290, y: 50, z: 0}
+  m_EntryPosition: {x: 300, y: 50, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 9133370481197226214}
@@ -52,7 +52,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SlashEffect
-  m_Speed: -1.5
+  m_Speed: -2
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []

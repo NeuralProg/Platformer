@@ -97,19 +97,22 @@ public class PlayerMovements : BaseCharacter
         rb.velocity = new Vector2(0f, 0f);
     }
 
-    private void Attack(string attackDirection)
+    private void Attack()
     {
-        if (attackDirection == "front")
+        if (verticalDirection == 0)
         {
             slashFront.SetActive(true);
         }
 
-        if (attackDirection == "down")
+        if (verticalDirection == -1)
         {
-            slashDown.SetActive(true);
+            if (isGrounded)
+                slashFront.SetActive(true); 
+            else
+                slashDown.SetActive(true);
         }
 
-        if (attackDirection == "up")
+        if (verticalDirection == 1)
         {
             slashUp.SetActive(true);
         }
@@ -216,30 +219,19 @@ public class PlayerMovements : BaseCharacter
         if (UnityEngine.Input.GetButtonDown("Attack") && !isAttacking && !isWallSliding)
         {
             isAttacking = true;
-            attackTimer = 0.5f;
+            attackTimer = 0.35f;
+            canFlip = false;
             anim.SetTrigger("Attack");
-
-            if (verticalDirection == 0)
-                Attack("front");
-
-            if (verticalDirection == -1)
-            {
-                if (isGrounded)
-                    Attack("front");
-                else
-                    Attack("down");
-            }
-
-            if (verticalDirection == -1)
-                Attack("up");
+            Attack();
         }
 
         if (isAttacking)
         {
             attackTimer -= Time.deltaTime;
-            if (attackTimer <= 0)
+            if (attackTimer <= 0f)
             {
                 isAttacking = false;
+                canFlip = true;
                 anim.ResetTrigger("Attack");
 
                 slashFront.SetActive(false);
