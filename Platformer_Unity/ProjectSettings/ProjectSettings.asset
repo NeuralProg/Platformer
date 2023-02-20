@@ -663,8 +663,10 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
+<<<<<<< HEAD
   windowsGamepadBackendHint: 0
 =======
+>>>>>>> parent of a04a4f8 (dash)
   cloudProjectId: 
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
