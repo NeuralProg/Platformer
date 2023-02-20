@@ -11,21 +11,21 @@ public class PlayerMovements : BaseCharacter
 
     // Jump
     private float jumpHeight = 600f;
-    private int jumpCount = 1;
+    private int jumpCount;
     private int jump;
 
     // Dash
     private float dashLength = 200f;
-    private int isDashing = 0;
-    private int canDash = 0;
+    private int isDashing;
+    private int canDash;
     private float dashTimer;
 
     // Walled
     [Header("Check wall")]
     [SerializeField] private LayerMask whatIsWall;
     [SerializeField] private Transform checkWall;
-    private float wallSlidingSpeed = 0.8f;
-    private int isWallSliding = 0;
+    private float wallSlidingSpeed;
+    private bool isWallSliding = false;
     #endregion
 
 
@@ -35,6 +35,8 @@ public class PlayerMovements : BaseCharacter
         base.Start();
 
         moveSpeed = 250f;
+        jumpCount = 1;
+        wallSlidingSpeed = 1f;
     }
 
     protected override void Update()
@@ -43,7 +45,7 @@ public class PlayerMovements : BaseCharacter
 
         direction = UnityEngine.Input.GetAxisRaw("Horizontal");
 
-        if (isGrounded || isWallSliding == 1)
+        if (isGrounded || isWallSliding)
         {
             ResetMechanics();
         }
@@ -63,7 +65,7 @@ public class PlayerMovements : BaseCharacter
     #region Mechanics 
     protected override void Move()
     {
-        rb.velocity = new Vector2((direction * moveSpeed * canMove * Time.fixedDeltaTime) + (transform.localScale.x * dashLength * isDashing * Time.fixedDeltaTime), (rb.velocity.y * isWallSliding * wallSlidingSpeed * Time.fixedDeltaTime) + (jump * jumpHeight * Time.fixedDeltaTime));
+        rb.velocity = new Vector2((direction * moveSpeed * canMove * Time.fixedDeltaTime) + (transform.localScale.x * dashLength * isDashing * Time.fixedDeltaTime), (rb.velocity.y * wallSlidingSpeed) + (jump * jumpHeight * Time.fixedDeltaTime));
         jump = 0;
     }
     #endregion
@@ -106,7 +108,7 @@ public class PlayerMovements : BaseCharacter
 
     private void HandleDash()
     {
-        if (UnityEngine.Input.GetButtonDown("Dash") && canDash == 1 && isWallSliding == 0)
+        if (UnityEngine.Input.GetButtonDown("Dash") && canDash == 1 && !isWallSliding)
         {
             canDash = 0;
             canMove = 0;
@@ -129,17 +131,18 @@ public class PlayerMovements : BaseCharacter
 
     private void HandleWallSlide()
     {
-        var isOnWall = Physics2D.OverlapCircle(checkWall.position, 0.07f, whatIsWall);
+        var isOnWall = Physics2D.OverlapCircle(checkWall.position, 0.08f, whatIsWall);
         if (isOnWall && !isGrounded)
         {
-            isWallSliding = 1;
-            anim.SetBool("Walled", true);
+            isWallSliding = true;
+            wallSlidingSpeed = 0.8f * Time.fixedDeltaTime;
         }
         else
         {
-            isWallSliding = 0;
-            anim.SetBool("Walled", false);
+            isWallSliding = false;
+            wallSlidingSpeed = 1f;
         }
+        anim.SetBool("Walled", isWallSliding);
     }
 
     #endregion
