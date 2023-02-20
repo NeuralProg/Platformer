@@ -35,8 +35,8 @@ public class PlayerMovements : BaseCharacter
     [SerializeField] private GameObject slashFront;
     [SerializeField] private GameObject slashDown;
     [SerializeField] private GameObject slashUp;
-    public bool isAttacking;
-    public float attackTimer;
+    private bool isAttacking;
+    private float attackTimer;
     #endregion
 
 

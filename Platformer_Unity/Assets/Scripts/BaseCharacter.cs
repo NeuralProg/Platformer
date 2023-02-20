@@ -44,6 +44,7 @@ public abstract class BaseCharacter : MonoBehaviour
         anim.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
         anim.SetBool("Grounded", isGrounded);
         anim.SetBool("Falling", isFalling);
+        anim.ResetTrigger("Hit");
     }
 
     protected virtual void FixedUpdate()
@@ -66,6 +67,12 @@ public abstract class BaseCharacter : MonoBehaviour
             facing = -facing;
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
+    }
+
+    protected virtual void Hit()
+    {
+        anim.SetTrigger("Hit");
+        print("Hit !");
     }
     #endregion
 

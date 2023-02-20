@@ -933,7 +933,7 @@ GameObject:
   - component: {fileID: 1940848324}
   m_Layer: 0
   m_Name: CyborgEnemy
-  m_TagString: Enemy
+  m_TagString: CyborgEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1104,7 +1104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8612133398777728557, guid: f0da9d40d54da4710b13fa0ef3559dc4, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: PlayerMovements
       objectReference: {fileID: 0}
     - target: {fileID: 8612133398777728727, guid: f0da9d40d54da4710b13fa0ef3559dc4, type: 3}
       propertyPath: m_RootOrder
