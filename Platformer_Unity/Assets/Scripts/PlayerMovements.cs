@@ -19,6 +19,13 @@ public class PlayerMovements : BaseCharacter
     private int isDashing = 0;
     private int canDash = 0;
     private float dashTimer;
+
+    // Walled
+    [Header("Check wall")]
+    [SerializeField] private LayerMask whatIsWall;
+    [SerializeField] private Transform checkWall;
+    private float wallSlidingSpeed = 0.8f;
+    private int isWallSliding = 0;
     #endregion
 
 
@@ -36,13 +43,14 @@ public class PlayerMovements : BaseCharacter
 
         direction = UnityEngine.Input.GetAxisRaw("Horizontal");
 
-        if (isGrounded)
+        if (isGrounded || isWallSliding == 1)
         {
             ResetMechanics();
         }
 
         HandleJump();
         HandleDash();
+        HandleWallSlide();
     }
 
     protected override void FixedUpdate()
@@ -55,7 +63,7 @@ public class PlayerMovements : BaseCharacter
     #region Mechanics 
     protected override void Move()
     {
-        rb.velocity = new Vector2((direction * moveSpeed * canMove * Time.fixedDeltaTime) + (transform.localScale.x * dashLength * isDashing * Time.fixedDeltaTime), rb.velocity.y + jump * jumpHeight * Time.fixedDeltaTime);
+        rb.velocity = new Vector2((direction * moveSpeed * canMove * Time.fixedDeltaTime) + (transform.localScale.x * dashLength * isDashing * Time.fixedDeltaTime), (rb.velocity.y * isWallSliding * wallSlidingSpeed * Time.fixedDeltaTime) + (jump * jumpHeight * Time.fixedDeltaTime));
         jump = 0;
     }
     #endregion
@@ -98,7 +106,7 @@ public class PlayerMovements : BaseCharacter
 
     private void HandleDash()
     {
-        if (UnityEngine.Input.GetButtonDown("Dash") && canDash == 1)
+        if (UnityEngine.Input.GetButtonDown("Dash") && canDash == 1 && isWallSliding == 0)
         {
             canDash = 0;
             canMove = 0;
@@ -116,6 +124,21 @@ public class PlayerMovements : BaseCharacter
                 isDashing = 0;
                 anim.ResetTrigger("Dash");
             }
+        }
+    }
+
+    private void HandleWallSlide()
+    {
+        var isOnWall = Physics2D.OverlapCircle(checkWall.position, 0.07f, whatIsWall);
+        if (isOnWall && !isGrounded)
+        {
+            isWallSliding = 1;
+            anim.SetBool("Walled", true);
+        }
+        else
+        {
+            isWallSliding = 0;
+            anim.SetBool("Walled", false);
         }
     }
 

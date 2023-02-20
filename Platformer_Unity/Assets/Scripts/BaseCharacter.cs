@@ -14,7 +14,7 @@ public abstract class BaseCharacter : MonoBehaviour
     private int facing = 1;
     protected float moveSpeed = 200f;
 
-    [Header ("Checks")]
+    [Header ("Check ground")]
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private Transform checkGround;
     protected bool isGrounded;
@@ -46,7 +46,6 @@ public abstract class BaseCharacter : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-
         HandleMovement();
     }
     #endregion
