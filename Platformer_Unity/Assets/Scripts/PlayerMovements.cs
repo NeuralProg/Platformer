@@ -6,7 +6,7 @@ using UnityEngine.Windows;
 public class PlayerMovements : BaseCharacter
 {
     #region Variables
-    // Jump
+    // Jump vars
     public float jumpHeight = 300f;
     private int jumpCount = 1;
     private int jump;
@@ -40,7 +40,7 @@ public class PlayerMovements : BaseCharacter
     #endregion
 
 
-    #region Mechanics
+    #region Mechanics 
     protected override void Move()
     {
         rb.velocity = new Vector2(direction * moveSpeed * Time.fixedDeltaTime, rb.velocity.y + jump * jumpHeight * Time.fixedDeltaTime);
