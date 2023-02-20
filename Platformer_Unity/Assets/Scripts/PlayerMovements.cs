@@ -7,9 +7,6 @@ using UnityEngine.Windows;
 public class PlayerMovements : BaseCharacter
 {
     #region Variables
-    // Move
-    private int canMove = 1;
-
     // Jump
     private float jumpHeight = 600f;
     public int jumpCount;

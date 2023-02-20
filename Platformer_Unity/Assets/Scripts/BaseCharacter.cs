@@ -10,6 +10,7 @@ public abstract class BaseCharacter : MonoBehaviour
     protected Animator anim;
 
     // Movement
+    protected int canMove = 1;
     protected float direction;
     protected int facing = 1;
     protected float moveSpeed = 200f;
@@ -59,7 +60,7 @@ public abstract class BaseCharacter : MonoBehaviour
 
     private void Flip()
     {
-        if (facing != direction && direction != 0f)
+        if (facing != direction && direction != 0f && canMove == 1)
         {
             facing = -facing;
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
