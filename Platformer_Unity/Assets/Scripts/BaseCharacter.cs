@@ -10,7 +10,7 @@ public abstract class BaseCharacter : MonoBehaviour
     protected Animator anim;
 
     // Movement
-    protected float direction;
+    public float direction;
     private int facing = 1;
     protected float moveSpeed = 200f;
 
@@ -32,7 +32,6 @@ public abstract class BaseCharacter : MonoBehaviour
 
     protected virtual void Update()
     {
-        direction = Input.GetAxisRaw("Horizontal");
         isGrounded = Physics2D.OverlapCircle(checkGround.position, 0.05f, whatIsGround);
 
         if (rb.velocity.y < 0)
