@@ -11,7 +11,7 @@ public abstract class BaseCharacter : MonoBehaviour
 
     // Movement
     protected float direction;
-    private int facing = 1;
+    protected int facing = 1;
     protected float moveSpeed = 200f;
 
     [Header ("Check ground")]

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 using UnityEngine.Windows;
 
 public class PlayerMovements : BaseCharacter
@@ -11,7 +12,7 @@ public class PlayerMovements : BaseCharacter
 
     // Jump
     private float jumpHeight = 600f;
-    private int jumpCount;
+    public int jumpCount;
     private int jump;
 
     // Dash
@@ -26,6 +27,8 @@ public class PlayerMovements : BaseCharacter
     [SerializeField] private Transform checkWall;
     private float wallSlidingSpeed;
     private bool isWallSliding = false;
+    private int wallJumping = 0;
+    private float wallJumpTimer;
     #endregion
 
 
@@ -65,8 +68,19 @@ public class PlayerMovements : BaseCharacter
     #region Mechanics 
     protected override void Move()
     {
-        rb.velocity = new Vector2((direction * moveSpeed * canMove * Time.fixedDeltaTime) + (transform.localScale.x * dashLength * isDashing * Time.fixedDeltaTime), (rb.velocity.y * wallSlidingSpeed) + (jump * jumpHeight * Time.fixedDeltaTime));
+        rb.velocity = new Vector2((direction * moveSpeed * canMove * Time.fixedDeltaTime) + (transform.localScale.x * dashLength * isDashing * Time.fixedDeltaTime) + (transform.localScale.x * wallJumping * 100f * Time.fixedDeltaTime), (rb.velocity.y * wallSlidingSpeed) + (jump * jumpHeight * Time.fixedDeltaTime) + (transform.localScale.x * wallJumping * 20f * Time.fixedDeltaTime));
         jump = 0;
+    }
+
+    private void WallJump()
+    {
+        wallJumpTimer = 0.4f;
+        wallJumping = 1;
+        canMove = 0;
+
+        facing = -facing;
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        rb.velocity = new Vector2(0f, 0f);
     }
     #endregion
 
@@ -91,10 +105,17 @@ public class PlayerMovements : BaseCharacter
 
         if (UnityEngine.Input.GetButtonDown("Jump") && jumpCount > 0)
         {
-            if (!isGrounded)
-                rb.velocity = new Vector2(rb.velocity.x, 0f);
-            jump = 1;
-            jumpCount--;
+            if (isWallSliding)
+            {
+                WallJump();
+            }
+            else
+            {
+                if (!isGrounded)
+                    rb.velocity = new Vector2(rb.velocity.x, 0f);
+                jump = 1;
+                jumpCount--;
+            }
             anim.SetTrigger("Jump");
         }
         if (UnityEngine.Input.GetButtonUp("Jump") == true)
@@ -103,6 +124,18 @@ public class PlayerMovements : BaseCharacter
             if (!isFalling)
                 rb.velocity = new Vector2(rb.velocity.x, 0f);
             anim.ResetTrigger("Jump");
+        }
+
+        // Wall jump
+        if (wallJumping == 1)
+        {
+            wallJumpTimer -= Time.fixedDeltaTime;
+            if (wallJumpTimer <= 0)
+            {
+                wallJumping = 0;
+                canMove = 1;
+            }
+
         }
     }
 
@@ -144,6 +177,5 @@ public class PlayerMovements : BaseCharacter
         }
         anim.SetBool("Walled", isWallSliding);
     }
-
     #endregion
 }
