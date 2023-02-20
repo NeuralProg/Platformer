@@ -511,6 +511,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   checkGround: {fileID: 1026969786}
+  playerInputs:
+    m_Name: Player Inputs
+    m_Type: 0
+    m_ExpectedControlType: Axis
+    m_Id: fb748388-f32a-4d0a-ab9a-3786fd690780
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!1 &2140615160
 GameObject:
   m_ObjectHideFlags: 0

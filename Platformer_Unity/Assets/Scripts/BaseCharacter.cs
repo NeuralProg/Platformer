@@ -10,7 +10,7 @@ public abstract class BaseCharacter : MonoBehaviour
     protected Animator anim;
 
     // Movement
-    public float direction;
+    protected float direction;
     private int facing = 1;
     protected float moveSpeed = 200f;
 
