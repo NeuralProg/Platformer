@@ -9,8 +9,6 @@ public class CyborgEnemy : BaseCharacter
         damage = 1;
 
         base.Start();
-
-        isAttacking = true;
     }
 
     // Update is called once per frame

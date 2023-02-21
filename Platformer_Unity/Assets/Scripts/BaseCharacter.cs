@@ -27,12 +27,13 @@ public abstract class BaseCharacter : MonoBehaviour
     // Attack
     protected bool isAttacking;
     protected int damage;
-    protected float knockbackVelocity = 8f;
-    public bool isKnockbacked;
+    protected float knockbackVelocity = 12f;
+    protected bool isKnockbacked;
 
     // Health
     protected int health;
     protected bool isDead;
+    protected float invincibilityTime = 0.5f;
 
     #endregion
 
@@ -61,7 +62,6 @@ public abstract class BaseCharacter : MonoBehaviour
         if (health > healthStatus.health)
         {
             Hit();
-            Knockback(transform.position - healthStatus.attackerPosition.position);
         }
 
         anim.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
@@ -96,12 +96,16 @@ public abstract class BaseCharacter : MonoBehaviour
     {
         anim.SetTrigger("Hit");
         health = healthStatus.health;
+        healthStatus.canBeAttacked = false;
+        Knockback(transform.position - healthStatus.attackerPosition.position, healthStatus.knockbackDuration);
+        StartCoroutine(BecomeAttackable());
     }
 
-    public virtual void Knockback(Vector3 knockbackDirection)
+    public virtual void Knockback(Vector3 knockbackDirection, float knockbackDuration)
     {
         isKnockbacked = true;
         rb.velocity = knockbackDirection.normalized * knockbackVelocity;
+        StartCoroutine(Unknockback(knockbackDuration));
     }
     #endregion
 
@@ -111,6 +115,18 @@ public abstract class BaseCharacter : MonoBehaviour
     {
         Move();
         Flip();
+    }
+
+    private IEnumerator Unknockback(float knockbackDuration)
+    {
+        yield return new WaitForSeconds(knockbackDuration);
+        isKnockbacked = false;
+    }
+
+    private IEnumerator BecomeAttackable()
+    {
+        yield return new WaitForSeconds(invincibilityTime);
+        healthStatus.canBeAttacked = true;
     }
     #endregion
 }

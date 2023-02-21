@@ -33,7 +33,7 @@ public class PlayerMovements : BaseCharacter
     // Attack
     [Header("Slash objects")]
     [SerializeField] private GameObject slashFront;
-    [SerializeField] private GameObject slashDown;
+    [SerializeField] public GameObject slashDown;
     [SerializeField] private GameObject slashUp;
     private float attackTimer;
 
@@ -50,6 +50,7 @@ public class PlayerMovements : BaseCharacter
         moveSpeed = 250f;
         jumpCount = 1;
         wallSlidingSpeed = 1f;
+        invincibilityTime = 2f;
 
         slashFront.SetActive(false);
         slashDown.SetActive(false);
@@ -136,7 +137,7 @@ public class PlayerMovements : BaseCharacter
         base.HandleMovement();
     }
 
-    private void ResetMechanics()
+    public void ResetMechanics()
     {
         jumpCount = 1;
         if (isDashing == 0)

@@ -8,12 +8,15 @@ public class Health : MonoBehaviour
     public int health;
     public int maxHealth;
     public bool dead = false;
+    public bool canBeAttacked = true;
 
     // Damage the character deals
     public int damage = 1;
 
     // Checks for knockback
+    public GameObject attacker;
     public Transform attackerPosition;
+    public float knockbackDuration;
 
     void Awake()
     {
@@ -28,9 +31,13 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void Hit(int damageTaken, Transform attackerPos)
+    public void Hit(int damageTaken, float knockbackDur)
     {
-        health -= damageTaken;
-        attackerPosition = attackerPos;
+        if (canBeAttacked)
+        {
+            health -= damageTaken;
+            attackerPosition = attacker.transform;
+            knockbackDuration = knockbackDur;
+        }
     }
 }
