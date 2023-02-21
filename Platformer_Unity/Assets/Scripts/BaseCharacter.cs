@@ -27,6 +27,8 @@ public abstract class BaseCharacter : MonoBehaviour
     // Attack
     protected bool isAttacking;
     protected int damage;
+    protected float knockbackVelocity = 8f;
+    public bool isKnockbacked;
 
     // Health
     protected int health;
@@ -55,9 +57,11 @@ public abstract class BaseCharacter : MonoBehaviour
         else
             isFalling = false;
 
+        // Check if hit
         if (health > healthStatus.health)
         {
             Hit();
+            Knockback(transform.position - healthStatus.attackerPosition.position);
         }
 
         anim.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
@@ -75,7 +79,8 @@ public abstract class BaseCharacter : MonoBehaviour
     #region Mechanics
     protected virtual void Move()
     {
-        rb.velocity = new Vector2(direction * moveSpeed * canMove * Time.fixedDeltaTime, rb.velocity.y);
+        if (!isKnockbacked)
+            rb.velocity = new Vector2(direction * moveSpeed * canMove * Time.fixedDeltaTime, rb.velocity.y);
     }
 
     private void Flip()
@@ -91,6 +96,12 @@ public abstract class BaseCharacter : MonoBehaviour
     {
         anim.SetTrigger("Hit");
         health = healthStatus.health;
+    }
+
+    public virtual void Knockback(Vector3 knockbackDirection)
+    {
+        isKnockbacked = true;
+        rb.velocity = knockbackDirection.normalized * knockbackVelocity;
     }
     #endregion
 

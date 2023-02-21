@@ -12,6 +12,9 @@ public class Health : MonoBehaviour
     // Damage the character deals
     public int damage = 1;
 
+    // Checks for knockback
+    public Transform attackerPosition;
+
     void Awake()
     {
         health = maxHealth;
@@ -25,8 +28,9 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void Hit(int damageTaken)
+    public void Hit(int damageTaken, Transform attackerPos)
     {
         health -= damageTaken;
+        attackerPosition = attackerPos;
     }
 }

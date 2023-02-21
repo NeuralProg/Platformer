@@ -11,7 +11,6 @@ public class CyborgEnemy : BaseCharacter
         base.Start();
 
         isAttacking = true;
-        direction = -1;
     }
 
     // Update is called once per frame
