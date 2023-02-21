@@ -71,7 +71,7 @@ public abstract class BaseCharacter : MonoBehaviour
     #region Mechanics
     protected virtual void Move()
     {
-        rb.velocity = new Vector2(direction * moveSpeed * Time.fixedDeltaTime, rb.velocity.y);
+        rb.velocity = new Vector2(direction * moveSpeed * canMove * Time.fixedDeltaTime, rb.velocity.y);
     }
 
     private void Flip()

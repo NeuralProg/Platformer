@@ -7,7 +7,7 @@ public class CyborgEnemy : BaseCharacter
     [Header ("Hit collision")]
     [SerializeField] private GameObject characterHit;
 
-    void Start()
+    protected override void Start()
     {
         base.Start();
 
@@ -16,10 +16,15 @@ public class CyborgEnemy : BaseCharacter
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         base.Update();
 
         characterHit.GetComponent<HitDetection>().isAttacking = isAttacking;
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
     }
 }
