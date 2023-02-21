@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +28,7 @@ public abstract class BaseCharacter : MonoBehaviour
     // Attack
     protected bool isAttacking;
     protected int damage;
-    protected float knockbackVelocity = 12f;
+    protected float knockbackVelocity = 10f;
     protected bool isKnockbacked;
 
     // Health
@@ -79,8 +80,8 @@ public abstract class BaseCharacter : MonoBehaviour
     #region Mechanics
     protected virtual void Move()
     {
-        if (!isKnockbacked)
-            rb.velocity = new Vector2(direction * moveSpeed * canMove * Time.fixedDeltaTime, rb.velocity.y);
+        var newXVelocity = isKnockbacked ? Mathf.Lerp(rb.velocity.x, 0f, Time.deltaTime * 3) : direction * moveSpeed * canMove * Time.fixedDeltaTime;
+        rb.velocity = new Vector2(newXVelocity, rb.velocity.y);
     }
 
     private void Flip()

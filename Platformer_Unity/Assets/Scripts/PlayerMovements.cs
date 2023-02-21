@@ -85,11 +85,9 @@ public class PlayerMovements : BaseCharacter
     #region Mechanics 
     protected override void Move()
     {
-        if (!isKnockbacked)
-        {
-            rb.velocity = new Vector2((direction * moveSpeed * canMove * Time.fixedDeltaTime) + (transform.localScale.x * dashLength * isDashing * Time.fixedDeltaTime) + (transform.localScale.x * wallJumping * 100f * Time.fixedDeltaTime), (rb.velocity.y * wallSlidingSpeed) + (jump * jumpHeight * Time.fixedDeltaTime) + (transform.localScale.x * wallJumping * 20f * Time.fixedDeltaTime));
-            jump = 0;
-        }
+        var newXVelocity = isKnockbacked ? Mathf.Lerp(rb.velocity.x, 0f, Time.deltaTime * 3) : (direction * moveSpeed * canMove * Time.fixedDeltaTime) + (transform.localScale.x * dashLength * isDashing * Time.fixedDeltaTime) + (transform.localScale.x * wallJumping * 100f * Time.fixedDeltaTime);
+        rb.velocity = new Vector2(newXVelocity, (rb.velocity.y * wallSlidingSpeed) + (jump * jumpHeight * Time.fixedDeltaTime) + (transform.localScale.x * wallJumping * 20f * Time.fixedDeltaTime));
+        jump = 0;
     }
 
     private void WallJump()
@@ -140,7 +138,7 @@ public class PlayerMovements : BaseCharacter
     public void ResetMechanics()
     {
         jumpCount = 1;
-        if (isDashing == 0)
+        if (isDashing == 0)                 // à faire --> faire en sorte que le slash reste à une position globale et ne suive paas le joueur
             canDash = 1;
     }
 
