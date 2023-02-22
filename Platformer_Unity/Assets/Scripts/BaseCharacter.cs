@@ -7,6 +7,7 @@ public abstract class BaseCharacter : MonoBehaviour
 {
     #region Variables
     // Components
+    protected SpriteRenderer sr;
     protected Rigidbody2D rb;
     protected Animator anim;
     protected Health healthStatus;
@@ -28,7 +29,6 @@ public abstract class BaseCharacter : MonoBehaviour
     // Attack
     protected bool isAttacking;
     protected int damage;
-    protected float knockbackVelocity = 10f;
     protected bool isKnockbacked;
 
     // Health
@@ -42,6 +42,7 @@ public abstract class BaseCharacter : MonoBehaviour
     #region Basic
     protected virtual void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         healthStatus = GetComponent<Health>();
@@ -80,8 +81,15 @@ public abstract class BaseCharacter : MonoBehaviour
     #region Mechanics
     protected virtual void Move()
     {
-        var newXVelocity = isKnockbacked ? Mathf.Lerp(rb.velocity.x, 0f, Time.deltaTime * 3) : direction * moveSpeed * canMove * Time.fixedDeltaTime;
-        rb.velocity = new Vector2(newXVelocity, rb.velocity.y);
+        if (!isKnockbacked)
+        {
+            rb.velocity = new Vector2(direction * moveSpeed * canMove * Time.fixedDeltaTime, rb.velocity.y);
+        }
+        else
+        {
+            rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0f, Time.deltaTime * 3), rb.velocity.y);
+            
+        }
     }
 
     private void Flip()
@@ -95,18 +103,29 @@ public abstract class BaseCharacter : MonoBehaviour
 
     protected virtual void Hit()
     {
-        anim.SetTrigger("Hit");
         health = healthStatus.health;
         healthStatus.canBeAttacked = false;
-        Knockback(transform.position - healthStatus.attackerPosition.position, healthStatus.knockbackDuration);
+        sr.color = Color.red;
+        StartCoroutine(BlinkOnHit());
+        if (healthStatus.knockbackVelocity != new Vector2(0f, 0f))
+            Knockback(transform.position - healthStatus.attackerPosition.position, healthStatus.knockbackVelocity);
         StartCoroutine(BecomeAttackable());
     }
 
-    public virtual void Knockback(Vector3 knockbackDirection, float knockbackDuration)
+    protected IEnumerator BlinkOnHit()
+    {
+        while (sr.color != Color.white)
+        {
+            yield return null;
+            sr.color = Color.Lerp(sr.color, Color.white, Time.deltaTime * 2);
+        }
+    }
+
+    public virtual void Knockback(Vector3 knockbackDirection, Vector2 knockbackVelocity)
     {
         isKnockbacked = true;
         rb.velocity = knockbackDirection.normalized * knockbackVelocity;
-        StartCoroutine(Unknockback(knockbackDuration));
+        StartCoroutine(Unknockback(0.3f));
     }
     #endregion
 
@@ -128,6 +147,8 @@ public abstract class BaseCharacter : MonoBehaviour
     {
         yield return new WaitForSeconds(invincibilityTime);
         healthStatus.canBeAttacked = true;
-    }
+    } 
+    
+    
     #endregion
 }

@@ -16,7 +16,7 @@ public class Health : MonoBehaviour
     // Checks for knockback
     public GameObject attacker;
     public Transform attackerPosition;
-    public float knockbackDuration;
+    public Vector2 knockbackVelocity;
 
     void Awake()
     {
@@ -31,13 +31,13 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void Hit(int damageTaken, float knockbackDur)
+    public void Hit(int damageTaken, Vector2 knockbackVel)
     {
         if (canBeAttacked)
         {
             health -= damageTaken;
             attackerPosition = attacker.transform;
-            knockbackDuration = knockbackDur;
+            knockbackVelocity = knockbackVel;
         }
     }
 }
