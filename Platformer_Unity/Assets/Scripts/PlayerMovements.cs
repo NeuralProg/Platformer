@@ -19,7 +19,7 @@ public class PlayerMovements : BaseCharacter
     private float dashLength = 150f;
     private int isDashing;
     private int canDash;
-    private float dashTimer;
+    private float dashTimer = 0.275f;
 
     // Walled
     [Header("Check wall")]
@@ -28,14 +28,16 @@ public class PlayerMovements : BaseCharacter
     private float wallSlidingSpeed;
     private bool isWallSliding = false;
     private int wallJumping = 0;
-    private float wallJumpTimer;
+    private float wallJumpTimer = 0.1f;
 
     // Attack
     [Header("Slash objects")]
     [SerializeField] private GameObject slashFront;
     [SerializeField] public GameObject slashDown;
     [SerializeField] private GameObject slashUp;
-    private float attackTimer;
+    private float attackTimer = 0.075f;
+    private float attackCooldown = 0.25f;
+    private bool canAttack = true;
 
     #endregion
 
@@ -96,7 +98,7 @@ public class PlayerMovements : BaseCharacter
         }
     }
 
-    private void WallJump()
+    private IEnumerator WallJump()
     {
         wallJumpTimer = 0.1f;
         wallJumping = 1;
@@ -105,6 +107,11 @@ public class PlayerMovements : BaseCharacter
         facing = -facing;
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         rb.velocity = new Vector2(0f, 0f);
+
+        yield return new WaitForSeconds(wallJumpTimer);
+
+        wallJumping = 0;
+        canMove = 1;
     }
 
     private void Attack()
@@ -130,6 +137,8 @@ public class PlayerMovements : BaseCharacter
         {
             slashUp.SetActive(true);
         }
+
+        StartCoroutine(AttackTimer());
     }
 
     #endregion
@@ -144,7 +153,7 @@ public class PlayerMovements : BaseCharacter
     public void ResetMechanics()
     {
         jumpCount = 1;
-        if (isDashing == 0)                 // à faire --> faire en sorte que le slash reste à une position globale et ne suive paas le joueur
+        if (isDashing == 0)
             canDash = 1;
     }
 
@@ -153,11 +162,11 @@ public class PlayerMovements : BaseCharacter
         if (isFalling)
             anim.ResetTrigger("Jump");
 
-        if (UnityEngine.Input.GetButtonDown("Jump") && jumpCount > 0)
+        if (UnityEngine.Input.GetButtonDown("Jump") && jumpCount > 0 && !isAttacking && isDashing == 0)
         {
             if (isWallSliding)
             {
-                WallJump();
+                StartCoroutine(WallJump());
             }
             else
             {
@@ -168,26 +177,14 @@ public class PlayerMovements : BaseCharacter
             }
             anim.SetTrigger("Jump");
         }
-        if (UnityEngine.Input.GetButtonUp("Jump") == true)
+        if (UnityEngine.Input.GetButtonUp("Jump") == true || isDashing == 1)
         {
             jump = 0;
             if (!isFalling)
                 rb.velocity = new Vector2(rb.velocity.x, 0f);
             anim.ResetTrigger("Jump");
         }
-
-        // Wall jump
-        if (wallJumping == 1)
-        {
-            wallJumpTimer -= Time.deltaTime;
-            if (wallJumpTimer <= 0)
-            {
-                wallJumping = 0;
-                canMove = 1;
-            }
-        }
-    }
-    
+    }    
 
     private void HandleDash()
     {
@@ -196,19 +193,8 @@ public class PlayerMovements : BaseCharacter
             canDash = 0;
             canMove = 0;
             isDashing = 1;
-            dashTimer = 0.2f;
             anim.SetTrigger("Dash");
-        }
-
-        if (isDashing == 1)
-        {
-            dashTimer -= Time.deltaTime;
-            if (dashTimer <= 0)
-            {
-                canMove = 1;
-                isDashing = 0;
-                anim.ResetTrigger("Dash");
-            }
+            StartCoroutine(DashTimer());
         }
     }
 
@@ -230,29 +216,43 @@ public class PlayerMovements : BaseCharacter
 
     private void HandleAttack()
     {
-        if (UnityEngine.Input.GetButtonDown("Attack") && !isAttacking && !isWallSliding)
+        if (UnityEngine.Input.GetButtonDown("Attack") && canAttack && !isWallSliding)
         {
             isAttacking = true;
-            attackTimer = 0.35f;
+            canAttack = false;
             canFlip = false;
             anim.SetTrigger("Attack");
             Attack();
         }
+    }
 
-        if (isAttacking)
-        {
-            attackTimer -= Time.deltaTime;
-            if (attackTimer <= 0f)
-            {
-                slashFront.SetActive(false);
-                slashDown.SetActive(false);
-                slashUp.SetActive(false);
+    private IEnumerator DashTimer()
+    {
+        yield return new WaitForSeconds(dashTimer);
+        canMove = 1;
+        isDashing = 0;
+        anim.ResetTrigger("Dash");
+    }
 
-                isAttacking = false;
-                canFlip = true;
-                anim.ResetTrigger("Attack");
-            }
-        }
+    private IEnumerator AttackTimer()
+    {
+        yield return new WaitForSeconds(attackTimer);
+
+        slashFront.SetActive(false);
+        slashDown.SetActive(false);
+        slashUp.SetActive(false);
+
+        isAttacking = false;
+        canFlip = true;
+        anim.ResetTrigger("Attack");
+
+        StartCoroutine(AttackCooldown());
+    }
+
+    private IEnumerator AttackCooldown()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
     }
 
     #endregion
