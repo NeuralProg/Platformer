@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class CyborgEnemy : BaseCharacter
 {
-    protected override void Awake()
-    {
-        base.Awake();
-    }
+    [Header("Projectile")]
+    [SerializeField] private GameObject projectilePrefab;
 
-    // Update is called once per frame
+
     protected override void Update()
     {
         base.Update();
@@ -17,6 +15,6 @@ public class CyborgEnemy : BaseCharacter
 
     protected override void FixedUpdate()
     {
-        base.FixedUpdate();
+        base.FixedUpdate(); 
     }
 }

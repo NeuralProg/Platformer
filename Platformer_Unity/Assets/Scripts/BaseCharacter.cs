@@ -21,7 +21,7 @@ public abstract class BaseCharacter : MonoBehaviour
 
     // Checks
     [Header ("Check ground")]
-    [SerializeField] private LayerMask whatIsGround;
+    public LayerMask whatIsGround;
     [SerializeField] private Transform checkGround;
     protected bool isGrounded;
     protected bool isFalling;
