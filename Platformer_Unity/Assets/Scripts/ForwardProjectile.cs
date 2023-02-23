@@ -18,16 +18,16 @@ public class ForwardProjectile : Projectile
     
     public override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == tag || collision.tag == "Untagged")
+        if (collision.tag == characterAttached.tag || collision.tag == "Untagged")
             return;
 
-        if (collision.tag == "Player" && tag == "Enemy" || collision.tag == "Enemy" && tag == "Player")
+        if (collision.tag == "Player" && characterAttached.tag == "Enemy" || collision.tag == "Enemy" && characterAttached.tag == "Player")
         {
-            collision.GetComponentInChildren<Health>().attacker = collision.GetComponentInChildren<Health>().gameObject;
-            collision.GetComponentInChildren<Health>().Hit(collision.GetComponentInChildren<Health>().damage, new Vector2(10f, 5f));
-            //base.OnTriggerEnter2D(collision);
+            collision.GetComponent<Health>().attacker = collision.GetComponent<Health>().gameObject;
+            collision.GetComponent<Health>().Hit(collision.GetComponent<Health>().damage, new Vector2(10f, 5f));
+            base.OnTriggerEnter2D(collision);
         }
-        //else
-            //base.OnTriggerEnter2D(collision);
+        else
+            base.OnTriggerEnter2D(collision);
     }
 }
