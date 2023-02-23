@@ -148,3 +148,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: {x: 75, y: 0}
   projectileDamage: 1
+  orientationX: 0

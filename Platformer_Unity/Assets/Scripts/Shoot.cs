@@ -17,6 +17,6 @@ public class Shoot : EnemyAction
  
     public override void OnStart()
     {
-        GetComponent<ShootProjectile>().Shoot(projectile, transform.position);
+        transform.parent.gameObject.GetComponent<ShootProjectile>().Shoot(projectile, transform.position);
     }
 }
