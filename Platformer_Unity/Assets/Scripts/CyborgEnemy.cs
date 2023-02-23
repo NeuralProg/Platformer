@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class CyborgEnemy : BaseCharacter
 {
-    protected override void Start()
+    protected override void Awake()
     {
-        damage = 1;
-
-        base.Start();
+        base.Awake();
     }
 
     // Update is called once per frame

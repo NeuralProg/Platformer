@@ -28,7 +28,6 @@ public abstract class BaseCharacter : MonoBehaviour
 
     // Attack
     protected bool isAttacking;
-    protected int damage;
     protected bool isKnockbacked;
 
     // Health
@@ -40,20 +39,19 @@ public abstract class BaseCharacter : MonoBehaviour
 
 
     #region Basic
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         healthStatus = GetComponent<Health>();
 
-        health = healthStatus.health;
+        health = healthStatus.maxHealth;
     }
 
     protected virtual void Update()
     {
         isGrounded = Physics2D.OverlapCircle(checkGround.position, 0.05f, whatIsGround);
-        healthStatus.damage = damage;
 
         if (rb.velocity.y < 0)
             isFalling = true;
@@ -121,7 +119,7 @@ public abstract class BaseCharacter : MonoBehaviour
         }
     }
 
-    public virtual void Knockback(Vector3 knockbackDirection, Vector2 knockbackVelocity)
+    public virtual void Knockback(Vector3 knockbackDirection, Vector2 knockbackVelocity/*, float knockbackDuration*/)
     {
         isKnockbacked = true;
         rb.velocity = knockbackDirection.normalized * knockbackVelocity;

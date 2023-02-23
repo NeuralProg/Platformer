@@ -43,11 +43,9 @@ public class PlayerMovements : BaseCharacter
 
 
     #region Basic
-    protected override void Start()
+    protected override void Awake()
     {
-        damage = 1;
-
-        base.Start();
+        base.Awake();
 
         moveSpeed = 250f;
         jumpCount = 1;

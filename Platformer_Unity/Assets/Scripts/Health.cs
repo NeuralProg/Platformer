@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    // Health of the character
-    public int health;
+    [Header("Health of the character")]
     public int maxHealth;
-    public bool dead = false;
-    public bool canBeAttacked = true;
+    [HideInInspector] public int health;
+    [HideInInspector] public bool dead = false;
 
-    // Damage the character deals
+    [Header("Damage of character")]
     public int damage = 1;
+    public bool takesDamage;
+
+    // Check for hit
+    [HideInInspector] public bool canBeAttacked = true;
 
     // Checks for knockback
-    public GameObject attacker;
-    public Transform attackerPosition;
-    public Vector2 knockbackVelocity;
+    [HideInInspector] public GameObject attacker;
+    [HideInInspector] public Transform attackerPosition;
+    [HideInInspector] public Vector2 knockbackVelocity;
 
     void Awake()
     {
