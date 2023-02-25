@@ -1,4 +1,0 @@
-<ListOfTaskListEntry>
-  <TaskListEntry file="" description="bug de collision entre 2 unitées si on saute dessus " />
-  <TaskListEntry file="" description="les slash ne peuvent pas etre refresh car ils ne sont pas active donc le code s'arrete puis reprend" priority="High" />
-</ListOfTaskListEntry>
