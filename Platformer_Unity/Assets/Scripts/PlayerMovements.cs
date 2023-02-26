@@ -160,7 +160,7 @@ public class PlayerMovements : BaseCharacter
         if (isFalling)
             anim.ResetTrigger("Jump");
 
-        if (UnityEngine.Input.GetButtonDown("Jump") && jumpCount > 0 && !isAttacking && isDashing == 0)
+        if (UnityEngine.Input.GetButtonDown("Jump") && jumpCount > 0 && !isAttacking && isDashing == 0 && !healthStatus.dead)
         {
             if (isWallSliding)
             {
@@ -186,7 +186,7 @@ public class PlayerMovements : BaseCharacter
 
     private void HandleDash()
     {
-        if (UnityEngine.Input.GetButtonDown("Dash") && canDash == 1 && !isWallSliding && !isAttacking)
+        if (UnityEngine.Input.GetButtonDown("Dash") && canDash == 1 && !isWallSliding && !isAttacking && !healthStatus.dead)
         {
             canDash = 0;
             canMove = 0;
@@ -199,7 +199,7 @@ public class PlayerMovements : BaseCharacter
     private void HandleWallSlide()
     {
         var isOnWall = Physics2D.OverlapCircle(checkWall.position, 0.08f, whatIsWall);
-        if (isOnWall && !isGrounded)
+        if (isOnWall && !isGrounded && !healthStatus.dead)
         {
             isWallSliding = true;
             wallSlidingSpeed = 0.8f * Time.fixedDeltaTime;
@@ -214,7 +214,7 @@ public class PlayerMovements : BaseCharacter
 
     private void HandleAttack()
     {
-        if (UnityEngine.Input.GetButtonDown("Attack") && canAttack && !isWallSliding)
+        if (UnityEngine.Input.GetButtonDown("Attack") && canAttack && !isWallSliding && !healthStatus.dead)
         {
             isAttacking = true;
             canAttack = false;

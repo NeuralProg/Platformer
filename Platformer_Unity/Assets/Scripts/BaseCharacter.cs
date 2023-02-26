@@ -32,7 +32,6 @@ public abstract class BaseCharacter : MonoBehaviour
 
     // Health
     protected int health;
-    protected bool isDead;
     protected float invincibilityTime = 0.5f;
 
     #endregion
@@ -58,15 +57,11 @@ public abstract class BaseCharacter : MonoBehaviour
         else
             isFalling = false;
 
-        // Check if hit
-        if (health > healthStatus.health)
-        {
-            Hit();
-        }
-
         anim.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
         anim.SetBool("Grounded", isGrounded);
         anim.SetBool("Falling", isFalling);
+
+        CheckHealth();
     }
 
     protected virtual void FixedUpdate()
@@ -119,7 +114,7 @@ public abstract class BaseCharacter : MonoBehaviour
         }
     }
 
-    public virtual void Knockback(Vector3 knockbackDirection, Vector2 knockbackVelocity/*, float knockbackDuration*/)
+    public virtual void Knockback(Vector3 knockbackDirection, Vector2 knockbackVelocity)
     {
         isKnockbacked = true;
         rb.velocity = knockbackDirection.normalized * knockbackVelocity;
@@ -134,6 +129,23 @@ public abstract class BaseCharacter : MonoBehaviour
         Move();
         Flip();
     }
+    
+    protected void CheckHealth()
+    {
+        // Check if hit
+        if (health > healthStatus.health)
+        {
+            Hit();
+        }
+
+        if (healthStatus.dead)
+        {
+            canMove = 0;
+            canFlip = false;
+            anim.SetTrigger("Dead");
+            StartCoroutine(DestroyOnDeath());
+        }
+    }
 
     private IEnumerator Unknockback(float knockbackDuration)
     {
@@ -145,8 +157,13 @@ public abstract class BaseCharacter : MonoBehaviour
     {
         yield return new WaitForSeconds(invincibilityTime);
         healthStatus.canBeAttacked = true;
-    } 
-    
-    
+    }
+
+    private IEnumerator DestroyOnDeath()
+    {
+        yield return new WaitForSeconds(0.583f);
+        Destroy(gameObject);
+    }
+
     #endregion
 }
