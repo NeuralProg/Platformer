@@ -11,15 +11,15 @@ public class PlayerMovements : BaseCharacter
     private float verticalDirection;
 
     // Jump
-    private float jumpHeight = 600f;
+    private float jumpHeight = 500f;
     private int jumpCount;
     private int jump;
 
     // Dash
     private float dashLength = 150f;
-    private int isDashing;
+    private bool isDashing;
     private int canDash;
-    private float dashTimer = 0.275f;
+    private float dashTimer = 0.2f;
 
     // Walled
     [Header("Check wall")]
@@ -87,12 +87,17 @@ public class PlayerMovements : BaseCharacter
     {
         if (!isKnockbacked)
         {
-            rb.velocity = new Vector2((direction * moveSpeed * canMove * Time.fixedDeltaTime) + (transform.localScale.x * dashLength * isDashing * Time.fixedDeltaTime) + (transform.localScale.x * wallJumping * 100f * Time.fixedDeltaTime), (rb.velocity.y * wallSlidingSpeed) + (jump * jumpHeight * Time.fixedDeltaTime) + (transform.localScale.x * wallJumping * 20f * Time.fixedDeltaTime));
-            jump = 0;
+            if (isDashing)
+                rb.velocity = new Vector2(transform.localScale.x * dashLength * Time.fixedDeltaTime, 0f);
+            else
+            {
+                rb.velocity = new Vector2((direction * moveSpeed * canMove * Time.fixedDeltaTime) + (transform.localScale.x * wallJumping * 100f * Time.fixedDeltaTime), (rb.velocity.y * wallSlidingSpeed) + (jump * jumpHeight * Time.fixedDeltaTime) + (transform.localScale.x * wallJumping * 20f * Time.fixedDeltaTime));
+                jump = 0;
+            }
         }
         else
         {
-            rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0f, Time.deltaTime * 3), rb.velocity.y);
+            rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0f, Time.fixedDeltaTime * 3), rb.velocity.y);
         }
     }
 
@@ -151,7 +156,7 @@ public class PlayerMovements : BaseCharacter
     public void ResetMechanics()
     {
         jumpCount = 1;
-        if (isDashing == 0)
+        if (!isDashing)
             canDash = 1;
     }
 
@@ -160,7 +165,7 @@ public class PlayerMovements : BaseCharacter
         if (isFalling)
             anim.ResetTrigger("Jump");
 
-        if (UnityEngine.Input.GetButtonDown("Jump") && jumpCount > 0 && !isAttacking && isDashing == 0 && !healthStatus.dead)
+        if (UnityEngine.Input.GetButtonDown("Jump") && jumpCount > 0 && !isAttacking && !isDashing && !healthStatus.dead && (isGrounded || isFalling))
         {
             if (isWallSliding)
             {
@@ -168,19 +173,12 @@ public class PlayerMovements : BaseCharacter
             }
             else
             {
-                if (!isGrounded)
+                if (isFalling)
                     rb.velocity = new Vector2(rb.velocity.x, 0f);
                 jump = 1;
                 jumpCount--;
             }
             anim.SetTrigger("Jump");
-        }
-        if (UnityEngine.Input.GetButtonUp("Jump") == true || isDashing == 1)
-        {
-            jump = 0;
-            if (!isFalling)
-                rb.velocity = new Vector2(rb.velocity.x, 0f);
-            anim.ResetTrigger("Jump");
         }
     }    
 
@@ -190,8 +188,9 @@ public class PlayerMovements : BaseCharacter
         {
             canDash = 0;
             canMove = 0;
-            isDashing = 1;
+            isDashing = true;
             anim.SetTrigger("Dash");
+            rb.gravityScale = 0;
             StartCoroutine(DashTimer());
         }
     }
@@ -228,8 +227,9 @@ public class PlayerMovements : BaseCharacter
     {
         yield return new WaitForSeconds(dashTimer);
         canMove = 1;
-        isDashing = 0;
+        isDashing = false;
         anim.ResetTrigger("Dash");
+        rb.gravityScale = 2;
     }
 
     private IEnumerator AttackTimer()

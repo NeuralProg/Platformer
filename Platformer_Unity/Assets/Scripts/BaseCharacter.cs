@@ -80,7 +80,7 @@ public abstract class BaseCharacter : MonoBehaviour
         }
         else
         {
-            rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0f, Time.deltaTime * 3), rb.velocity.y);
+            rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0f, Time.fixedDeltaTime * 3), rb.velocity.y);
         }
     }
 
