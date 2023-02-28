@@ -6,7 +6,7 @@ using UnityEngine;
 public class HitDetection : MonoBehaviour
 {
     public bool isPlayer;
-    private Vector2 colliderSize;
+    public Vector2 colliderSize;
 
 
     private void Start()

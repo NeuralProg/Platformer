@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CyborgEnemy : BaseCharacter
+public class ExecutionerBoss : BaseCharacter
 {
-    [Header("Projectile")]
-    [SerializeField] private GameObject projectilePrefab;
+    //[Header("Projectile")]
+    //[SerializeField] private GameObject projectilePrefab;
 
     protected override void Awake()
     {
