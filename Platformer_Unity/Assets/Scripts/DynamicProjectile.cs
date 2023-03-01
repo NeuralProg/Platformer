@@ -2,20 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ForwardProjectile : Projectile
+public class DynamicProjectile : Projectile
 {
-    public float orientationX;
+    private Vector2 orientation;
     private GameObject characterAttached;
+    public List<Transform> waypoints;
+    private bool arrived = true;
 
     protected override void Start()
     {
         base.Start();
 
+
         characterAttached = transform.parent.GetComponent<ShootProjectile>().character;
-        orientationX = characterAttached.transform.localScale.x;
-        projectileDirection = projectileSpeed * new Vector2(-1f, 0f);
+    }
+
+
+    private void Update()
+    {
+        var i = 0;
+
+        print(waypoints[i].position + " , " + transform.position);
+        if (waypoints[i].position == transform.position)
+        {
+            print("test1");
+            if (waypoints.Count - 1 != i)
+            {
+                print("test2");
+                i++;
+                orientation = (waypoints[i].position - transform.position).normalized;
+                projectileDirection = projectileSpeed * orientation;
+            }
+            else
+                i = 0;
+        }
+        else
+        {
+            orientation = (waypoints[i].position - transform.position).normalized;
+            projectileDirection = projectileSpeed * orientation;
+        }
     }
     
+
     public override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == characterAttached.tag || collision.tag == "Untagged")

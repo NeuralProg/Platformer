@@ -15,7 +15,7 @@ public abstract class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         rb.velocity = projectileDirection * Time.fixedDeltaTime;
     }
