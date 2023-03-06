@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityCharacterController;
 using UnityEngine;
 
 public class DynamicProjectile : Projectile
@@ -7,12 +8,12 @@ public class DynamicProjectile : Projectile
     private Vector2 orientation;
     private GameObject characterAttached;
     public List<Transform> waypoints;
-    private bool arrived = true;
+    private bool arrived;
+    private int i = 0;
 
     protected override void Start()
     {
         base.Start();
-
 
         characterAttached = transform.parent.GetComponent<ShootProjectile>().character;
     }
@@ -20,15 +21,11 @@ public class DynamicProjectile : Projectile
 
     private void Update()
     {
-        var i = 0;
-
-        print(waypoints[i].position + " , " + transform.position);
-        if (waypoints[i].position == transform.position)
+        print(Vector3.Distance(waypoints[i].position, transform.position) + " | " + i);
+        if (Vector3.Distance(waypoints[i].position, transform.position) <= 0.05f)
         {
-            print("test1");
             if (waypoints.Count - 1 != i)
             {
-                print("test2");
                 i++;
                 orientation = (waypoints[i].position - transform.position).normalized;
                 projectileDirection = projectileSpeed * orientation;
@@ -42,7 +39,7 @@ public class DynamicProjectile : Projectile
             projectileDirection = projectileSpeed * orientation;
         }
     }
-    
+
 
     public override void OnTriggerEnter2D(Collider2D collision)
     {
